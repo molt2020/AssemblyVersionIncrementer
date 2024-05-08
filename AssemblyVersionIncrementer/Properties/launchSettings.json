@@ -2,7 +2,7 @@
   "profiles": {
     "AssemblyIncrementer": {
       "commandName": "Project",
-      "commandLineArgs": "--file TestFiles\\in_debug_AssemblyFileVersion_test3.cs -sip 2"
+      "commandLineArgs": "--file TestFiles\\in_debug_sdk_test_3.csproj -sip 2"
     }
   }
 }

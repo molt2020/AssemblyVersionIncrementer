@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Version>1.0.5.0</Version>
+		<GenerateAssemblyFile>true</GenerateAssemblyFile>
+		<OutputType>Library</OutputType>
+		<TargetFrameworks>net481;</TargetFrameworks>
+		<UseWPF>true</UseWPF>
+		<!--<ImplicitUsings>enable</ImplicitUsings>-->
+		<RootNamespace>Test.GUI.Wpf.Controls</RootNamespace>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Obfuscar" Version="2.2.38">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="ToggleSwitch-Net8" Version="1.3.1" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="Framework\" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Common\Common.csproj" />
+	</ItemGroup>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="echo Release@@Any CPU&#xD;&#xA;if &quot;$(ConfigurationName)&quot; == &quot;Release&quot; (_Obfuscar\Obfuscar_multi_target.bat $(TargetFramework))" />
+	</Target>
+</Project>

@@ -60,6 +60,9 @@
 		<None Include="TestFiles\in_debug_sdk_test_2.csproj">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Include="TestFiles\in_debug_sdk_test_3.csproj">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>

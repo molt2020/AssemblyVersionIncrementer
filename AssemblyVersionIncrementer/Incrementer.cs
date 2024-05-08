@@ -103,20 +103,22 @@ namespace AssemblyVersionIncrementer
             if (xmlDoc == null || xmlDoc.DocumentElement == null)
                 throw new IOException($"Unknown error or empty xml file {fileName}");
 
+            int changesMade = 0;
+
             foreach (string tag in nodesToChange)
             {
                 XmlNodeList? xmlNodeList = xmlDoc.DocumentElement.SelectNodes(tag);
                 if (xmlNodeList == null || xmlNodeList?.Count < 1)
                 {
                     errors.Add(IncrementerError.Warning(($"Node <{tag}> not found")));
-                    break;
+                    continue;
                 }
 
                 if (xmlNodeList?.Count > 1)
                 {
                     errors.Add(IncrementerError.Warning(
                         $"Node <{tag}> found {xmlNodeList?.Count} times"));
-                    break;
+                    continue;
                 }
 
                 string currentValue = xmlNodeList!.Item(0)!.InnerText ?? string.Empty;
@@ -124,7 +126,7 @@ namespace AssemblyVersionIncrementer
                 {
                     errors.Add(IncrementerError.Warning
                         ($"Tag <{tag}> present but value empty"));
-                    break;
+                    continue;
                 }
 
                 (bool success, string newVersion) = IncrementVersion(
@@ -139,6 +141,7 @@ namespace AssemblyVersionIncrementer
                         $"Error incrementing <{tag}>, value '{currentValue}'"));
                 else
                 {
+                    changesMade++;
                     xmlNodeList!.Item(0)!.InnerText = newVersion;
                     errors.Add(IncrementerError.Ok(
                         $"Set <{tag}> from '{currentValue}' to " +
@@ -152,14 +155,14 @@ namespace AssemblyVersionIncrementer
                 if (xmlNodeList == null || xmlNodeList?.Count < 1)
                 {
                     errors.Add(IncrementerError.Warning($"Node <{tag}> not found"));
-                    break;
+                    continue;
                 }
 
                 if (xmlNodeList?.Count > 1)
                 {
                     errors.Add(IncrementerError.Warning(
                         $"Node <{tag}> found {xmlNodeList?.Count} times"));
-                    break;
+                    continue;
                 }
 
                 var tagValue = xmlNodeList!.Item(0)!.Value ?? string.Empty;
@@ -170,6 +173,8 @@ namespace AssemblyVersionIncrementer
                     errors.Add(IncrementerError.Warning($"Node <{tag}> is set to false"));
                 }
             }
+
+            if (changesMade == 0) errors.Add(IncrementerError.Error($"Failed: I made no changes to {fileName}"));
 
             return (errors, xmlDoc);
         }
