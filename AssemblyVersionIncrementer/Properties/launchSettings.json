@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AssemblyIncrementer": {
+      "commandName": "Project",
+      "commandLineArgs": "--file AssemblyIncrementer.runtimeconfig.json -sip 1"
+    }
+  }
+}
