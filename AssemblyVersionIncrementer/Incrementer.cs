@@ -214,7 +214,8 @@ namespace AssemblyVersionIncrementer
                         foundAVersionInFile = true;
                         currentLine = GetOldStylePrefix(CONST_ASSEMBLY) + newAVersion + postfix;
                     }
-                    else errors.Add(IncrementerError.Warning($"Unable to increment {CONST_ASSEMBLY} '{aVersion}'"));
+                    else
+                        errors.Add(IncrementerError.Warning($"Unable to increment {CONST_ASSEMBLY} '{aVersion}'"));
                 }
 
                 if (foundFVersion)
@@ -230,7 +231,8 @@ namespace AssemblyVersionIncrementer
                         foundFVersionInFile = true;
                         currentLine = GetOldStylePrefix(CONST_ASSEMBLY_FILE) + newFVersion + postfix;
                     }
-                    else errors.Add(IncrementerError.Warning($"Unable to increment {CONST_ASSEMBLY_FILE} '{aVersion}'"));
+                    else
+                        errors.Add(IncrementerError.Warning($"Unable to increment {CONST_ASSEMBLY_FILE} '{aVersion}'"));
                 }
 
                 result.Add(currentLine);
@@ -278,7 +280,7 @@ namespace AssemblyVersionIncrementer
         #region Error list utilities
 
         public static int HasErrors(List<IncrementerError> errorList)
-            => errorList.Where(e=>e.ErrorType == IncrementerError.ErrorTypes.Error).Count();
+            => errorList.Where(e => e.ErrorType == IncrementerError.ErrorTypes.Error).Count();
 
         public static int HasWarnings(List<IncrementerError> errorList)
             => errorList.Where(e => e.ErrorType == IncrementerError.ErrorTypes.Warning).Count();

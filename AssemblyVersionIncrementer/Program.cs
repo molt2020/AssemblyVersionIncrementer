@@ -15,8 +15,9 @@ namespace AssemblyVersionIncrementer
             string appName = System.AppDomain.CurrentDomain.FriendlyName;
             string myVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "Unknown";
 
-            ConsoleUtil.WriteLn(ErrorTypes.Ok, category: appName, message: $"{appName} v{myVersion}");
+            //ConsoleUtil.WriteLn(ErrorTypes.Ok, category: appName, message: $"{appName} v{myVersion}");
 
+            #region Command Line Options
             var fileOption = new Option<string>(
              name: "--file",
              description: "The file to process.")
@@ -98,16 +99,30 @@ namespace AssemblyVersionIncrementer
                 incrementPosition
                 ) =>
                 {
-                    ProcessFile(appName, file!, backup, quiet, force, setVersion, incrementBy, incrementPosition);
+                    ProcessFile(appName, myVersion, file!, backup, quiet, force, setVersion, incrementBy, incrementPosition);
                 },
                 fileOption, backupOption, quietOption, forceOption, setVersionOption, incrementBy, incrementPosition);
-
+            #endregion
             //return await rootCommand.InvokeAsync(args);
             return rootCommand.Invoke(args);
         }
 
+
+        /// <summary>
+        /// This is the real entry point for processing the file
+        /// </summary>
+        /// <param name="appName"></param>
+        /// <param name="fileName"></param>
+        /// <param name="doBackup"></param>
+        /// <param name="beQuiet"></param>
+        /// <param name="forceParams"></param>
+        /// <param name="setVersion"></param>
+        /// <param name="incrementBy"></param>
+        /// <param name="incrementPosition"></param>
+        /// <returns></returns>
         public static int ProcessFile(
             string appName,
+            string myVersion,
             string fileName,
             bool doBackup,
             bool beQuiet,
@@ -118,7 +133,7 @@ namespace AssemblyVersionIncrementer
             )
         {
             List<IncrementerError> errors = new List<IncrementerError>();
-            ConsoleUtil.WriteLn(ErrorTypes.Info, $"Processing " + fileName, category: appName, quiet: beQuiet);
+            ConsoleUtil.WriteLn(ErrorTypes.Info, $"{appName} [{myVersion}]: " + fileName, category: appName, quiet: beQuiet);
 #if DEBUG
             Debug.WriteLine($"Debug: Start processing file {fileName}");
 #endif
@@ -134,13 +149,14 @@ namespace AssemblyVersionIncrementer
 
                 switch (Incrementer.GetFileType(fileName))
                 {
+                    /// Old-Style AssemblyInfo.cs
                     case (Incrementer.VersionFileType.AssemblyInfo):
                         List<string> lines = new List<string>();
                         (errors, lines) = Incrementer.ProcessAssemblyFile(fileName,
                             positionToIncrement: incrementPosition,
                             incrementBy: incrementBy,
                             setVersion: setVersion);
-                        ConsoleUtil.ErrorsToConsole(errors: errors, category: $"{appName}-AssemblyFileInfo", quiet: beQuiet);
+                        // ConsoleUtil.ErrorsToConsole(errors: errors, category: $"{appName}-AssemblyFileInfo", quiet: beQuiet);
                         if (Incrementer.HasErrors(errors) == 0)
                         {
                             ConsoleUtil.Write(ErrorTypes.Ok, $"Writing new version file {fileName}...", category: appName, quiet: beQuiet);
@@ -151,13 +167,14 @@ namespace AssemblyVersionIncrementer
                             ConsoleUtil.WriteLn(ErrorTypes.Error, $"Not writing file (unresolved errors)", category: appName, quiet: beQuiet);
                         break;
 
+                    /// SDK FILE
                     case (Incrementer.VersionFileType.SDK):
                         XmlDocument xmlDoc = new XmlDocument();
                         (errors, xmlDoc) = Incrementer.ProcessSDKFile(fileName,
                             positionToIncrement: incrementPosition,
                             incrementBy: incrementBy,
                             setVersion: setVersion);
-                        ConsoleUtil.ErrorsToConsole(errors: errors, category: $"{appName}-SDK", quiet: beQuiet);
+                        // ConsoleUtil.ErrorsToConsole(errors: errors, category: $"{appName}-SDK", quiet: beQuiet);
                         if (Incrementer.HasErrors(errors) == 0)
                         {
                             ConsoleUtil.Write(ErrorTypes.Ok, $"Writing new version file {fileName}...", category: appName, quiet: beQuiet);

@@ -34,7 +34,7 @@ namespace AssemblyVersionIncrementer
             foreach (var error in errors)
                 WriteLn(
                     messageType: error.ErrorType,
-                    message: "\t" + error,
+                    message: "\t" + error.Message,
                     category: category,
                     quiet: quiet
                     );
@@ -52,9 +52,10 @@ namespace AssemblyVersionIncrementer
             {
 
                 SetConsoleColor(messageType);
-                Console.WriteLine(PrepMessage(message, category));
+                //var msg = PrepMessage(message:message, category:category);
+                Console.WriteLine(PrepMessage(message: message, category: category));
 #if DEBUG
-                Debug.WriteLine(PrepMessage(message, category));
+                Debug.WriteLine(PrepMessage(message: message, category: category));
 #endif
                 Console.ResetColor();
             }
@@ -65,9 +66,9 @@ namespace AssemblyVersionIncrementer
             if (!quiet)
             {
                 SetConsoleColor(messageType);
-                Console.Write(PrepMessage(message, category));
+                Console.Write(PrepMessage(message: message, category: category));
 #if DEBUG
-                Debug.Write(PrepMessage(message, category));
+                Debug.Write(PrepMessage(message: message, category: category));
 #endif
                 Console.ResetColor();
             }
