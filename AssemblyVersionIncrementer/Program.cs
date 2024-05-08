@@ -50,7 +50,7 @@ namespace AssemblyVersionIncrementer
             var backupOption = new Option<bool>(
                name: "--backup",
                description: "Keep old version of file as backup",
-               getDefaultValue: () => true
+               getDefaultValue: () => false
                );
             backupOption.AddAlias("-b");
 
