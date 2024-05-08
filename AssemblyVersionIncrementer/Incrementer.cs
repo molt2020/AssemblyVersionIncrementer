@@ -215,7 +215,7 @@ namespace AssemblyVersionIncrementer
                         setVersion);
                     if (aIncremented)
                     {
-                        errors.Add(IncrementerError.Ok($"Found {CONST_ASSEMBLY} old: {aVersion}, new {newAVersion}"));
+                        errors.Add(IncrementerError.Ok($"Found {CONST_ASSEMBLY} old: {aVersion}, new: {newAVersion}"));
                         foundAVersionInFile = true;
                         currentLine = GetOldStylePrefix(CONST_ASSEMBLY) + newAVersion + postfix;
                     }
@@ -232,7 +232,7 @@ namespace AssemblyVersionIncrementer
                         setVersion);
                     if (fIncremented)
                     {
-                        errors.Add(IncrementerError.Ok($"Found {CONST_ASSEMBLY_FILE} old: {fVersion}, new {newFVersion}"));
+                        errors.Add(IncrementerError.Ok($"Found {CONST_ASSEMBLY_FILE} old: {fVersion}, new: {newFVersion}"));
                         foundFVersionInFile = true;
                         currentLine = GetOldStylePrefix(CONST_ASSEMBLY_FILE) + newFVersion + postfix;
                     }
