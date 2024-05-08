@@ -31,6 +31,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="TestFiles\in_debug_AssemblyFileVersion_test3.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Remove="AssemblyVersionIncrementer-icon.png" />
 		<None Remove="Scripts\tool_install.bat" />
 		<None Remove="Scripts\tool_update.bat" />
@@ -49,6 +53,9 @@
 		<None Include="..\README.MD">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="TestFiles\in_debug_AssemblyFileVersion_test3.cs">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 

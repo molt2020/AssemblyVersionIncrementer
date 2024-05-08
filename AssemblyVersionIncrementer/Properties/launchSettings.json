@@ -2,7 +2,7 @@
   "profiles": {
     "AssemblyIncrementer": {
       "commandName": "Project",
-      "commandLineArgs": "--file AssemblyIncrementer.runtimeconfig.json -sip 1"
+      "commandLineArgs": "--file TestFiles\\in_debug_AssemblyFileVersion_test3.cs -sip 2"
     }
   }
 }
