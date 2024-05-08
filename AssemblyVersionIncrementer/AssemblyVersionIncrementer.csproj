@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<Version>1.0.3</Version>
 		<OutputType>Exe</OutputType>
-		<TargetFramework>net8.0;net481;net6.0;</TargetFramework>
+		<TargetFrameworks>net8.0</TargetFrameworks>
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>false</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -25,14 +25,24 @@
 		<PackageProjectUrl>https://github.com/molt2020/assemblyversionincrementer</PackageProjectUrl>
 		<PackageIcon>AssemblyVersionIncrementer-icon.png</PackageIcon>
 		<RepositoryUrl>https://github.com/molt2020/assemblyversionincrementer</RepositoryUrl>
+		<!--<Nullable>enable</Nullable>-->
+		<LangVersion>8.0</LangVersion>
+		<ImplicitUsings>disable</ImplicitUsings>  <!--Disable global usings c# 10 as it breaks net481-->
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Scripts\tool_install.bat" />
+		<None Remove="AssemblyVersionIncrementer-icon.png" />
+		<None Remove="Scripts\tool_install.bat" />
+		<None Remove="Scripts\tool_update.bat" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="Scripts\tool_install.bat" />
+		<Content Include="AssemblyVersionIncrementer-icon.png">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</Content>
+		<Content Include="Scripts\tool_update.bat" />
+		<Content Include="Scripts\tool_install.bat" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -44,12 +54,5 @@
 
 	<ItemGroup>
 		<PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Update="AssemblyVersionIncrementer-icon.png">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
 	</ItemGroup>
 </Project>

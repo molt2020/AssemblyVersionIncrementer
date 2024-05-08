@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace AssemblyVersionIncrementer
@@ -57,7 +55,7 @@ namespace AssemblyVersionIncrementer
             bool success = false;
             string result = versionString;
 
-            string[] split = versionString.Split(delimiter);
+            string[] split = versionString.Split(delimiter.ToCharArray());
             if (positionToIncrement < split.Length)
             {
                 Int32.TryParse(split[positionToIncrement], out int parsedNumber);

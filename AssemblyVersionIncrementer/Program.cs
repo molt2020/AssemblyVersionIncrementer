@@ -1,17 +1,16 @@
+using System;
+using System.Collections.Generic;
 using System.CommandLine;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Reflection.Metadata;
-using System.Text.RegularExpressions;
+using System.IO;
 using System.Xml;
-using System.Xml.Linq;
 using static AssemblyVersionIncrementer.IncrementerError;
 
 namespace AssemblyVersionIncrementer
 {
     public static class Program
     {
-        public static async Task<int> Main(string[] args)
+        public static int Main(string[] args)
         {
             string appName = System.AppDomain.CurrentDomain.FriendlyName;
             string myVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "Unknown";
@@ -88,7 +87,7 @@ namespace AssemblyVersionIncrementer
             };
 
             //rootCommand.AddCommand(processCommand);
-            
+
             rootCommand.SetHandler((
                 file,
                 backup,
@@ -136,7 +135,8 @@ namespace AssemblyVersionIncrementer
                 switch (Incrementer.GetFileType(fileName))
                 {
                     case (Incrementer.VersionFileType.AssemblyInfo):
-                        (errors, List<string> lines) = Incrementer.ProcessAssemblyFile(fileName,
+                        List<string> lines = new List<string>();
+                        (errors, lines) = Incrementer.ProcessAssemblyFile(fileName,
                             positionToIncrement: incrementPosition,
                             incrementBy: incrementBy,
                             setVersion: setVersion);
@@ -152,7 +152,8 @@ namespace AssemblyVersionIncrementer
                         break;
 
                     case (Incrementer.VersionFileType.SDK):
-                        (errors, XmlDocument xmlDoc) = Incrementer.ProcessSDKFile(fileName,
+                        XmlDocument xmlDoc = new XmlDocument();
+                        (errors, xmlDoc) = Incrementer.ProcessSDKFile(fileName,
                             positionToIncrement: incrementPosition,
                             incrementBy: incrementBy,
                             setVersion: setVersion);
@@ -160,7 +161,7 @@ namespace AssemblyVersionIncrementer
                         if (Incrementer.HasErrors(errors) == 0)
                         {
                             ConsoleUtil.Write(ErrorTypes.Ok, $"Writing new version file {fileName}...", category: appName, quiet: beQuiet);
-                            xmlDoc.Save(fileName);
+                            xmlDoc?.Save(fileName);
                             ConsoleUtil.WriteLn(ErrorTypes.Ok, $" completed.", quiet: beQuiet);
                         }
                         else
