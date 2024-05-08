@@ -30,6 +30,7 @@ namespace AssemblyVersionIncrementer.Tests
 
             var result1 = Program.ProcessFile(
                 appName: "Test",
+                myVersion: "1.0.0",
                 backup1,
                 doBackup: true,
                 beQuiet: false,
@@ -43,20 +44,22 @@ namespace AssemblyVersionIncrementer.Tests
 
             var backup2 = Utilities.BackupFile(testFile2, backupExtension: ".csproj");
             var result2 = Program.ProcessFile(
-                 appName: "Test",
-                backup2,
-              doBackup: true,
-              beQuiet: false,
-              forceParams: false,
-              setVersion: "",
-              incrementBy: 1,
-              incrementPosition: 2
+                  appName: "Test",
+                  myVersion: "1.0.0",
+                  backup2,
+                  doBackup: true,
+                  beQuiet: false,
+                  forceParams: false,
+                  setVersion: "",
+                  incrementBy: 1,
+                  incrementPosition: 2
             );
             Assert.IsTrue(result2 == 78); // no errors but will have warnings!
 
 
             var result3 = Program.ProcessFile(
-                 appName: "Test",
+                appName: "Test",
+                myVersion: "1.0.0",
                 testFile3,
                 doBackup: true,
                 beQuiet: false,
@@ -70,6 +73,7 @@ namespace AssemblyVersionIncrementer.Tests
 
             var result4 = Program.ProcessFile(
                  appName: "Test",
+                  myVersion: "1.0.0",
                     testFile4,
               doBackup: true,
               beQuiet: false,
