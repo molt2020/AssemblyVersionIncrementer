@@ -245,7 +245,9 @@ namespace AssemblyVersionIncrementer
 
             if (!foundAVersionInFile) errors.Add(IncrementerError.Warning($"{CONST_ASSEMBLY} not found in file"));
             if (!foundFVersionInFile) errors.Add(IncrementerError.Warning($"{CONST_ASSEMBLY_FILE} not found in file"));
-
+            if (!foundAVersionInFile && !foundFVersionInFile) errors.Add(
+                IncrementerError.Error($"Failed: {CONST_ASSEMBLY} or {CONST_ASSEMBLY_FILE} not found in '{fileName}'.")
+            );
             return (errors, result);
         }
 
