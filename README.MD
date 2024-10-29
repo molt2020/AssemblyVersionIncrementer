@@ -29,3 +29,8 @@ The exit codes returned are as follows
 | 1         | Error(s)   |
 | 78        | Warning(s) |
 
+
+# Global Tool Installation
+You can install this package as a global tool for ease of use. To do this you can do something like:
+`dotnet tool update -g AssemblyVersionIncrementer --add-source AssemblyVersionIncrementer.1.0.6.nupkg`
+
